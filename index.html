@@ -3,130 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Business Calculator - A site that helps in business calculations">
+    <meta name="keywords" content="business calculator">
+    <meta name="author" content="JavaBongo">
     <title>Business Calculator</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="app">
-        <!-- Title Section -->
-        <h1 id="title">{{sitename}}</h1>
+        <header>
+            <!-- Title Section -->
+            <h1 id="title">{{sitename}}</h1>
+        </header>
+        <main>
+            <!-- Product Section -->
+            <section>
+                <button class="center" v-on:click="addProduct">
+                    <i class="fa-solid fa-circle-plus"></i>&nbsp; New Product
+                </button>
+                <span v-if="!products.length" class="message"><hr><p>add product to begin</p><hr></span>
 
-        <!-- Product Section -->
-        <section>
-            <button class="center" v-on:click="addProduct">
-                <i class="fa-solid fa-circle-plus"></i>&nbsp; New Product
-            </button>
-            <span v-if="!products.length" class="message"><hr><p>add product to begin</p><hr></span>
+                <!-- Product Controls and List -->
+                <transition name="fade" mode="out-in">
+                    <div class="input-container" v-if="products.length">
+                        <!-- Sort and Search Controls -->
+                        <div class="controls-container">
+                            <button class="sort-button" v-for="key in keys" v-on:click="applySort(key)" :key="key">
+                                {{key}}&nbsp;<i class="fa-solid fa-sort"></i>
+                            </button>
+                            <input class="search-bar" type="text" placeholder="search" v-model.trim="searchQuery">
+                        </div>
 
-            <!-- Product Controls and List -->
-            <transition name="fade" mode="out-in">
-                <div class="input-container" v-if="products.length">
-                    <!-- Sort and Search Controls -->
-                    <div class="controls-container">
-                        <button class="sort-button" v-for="key in keys" v-on:click="applySort(key)" :key="key">
-                            {{key}}&nbsp;<i class="fa-solid fa-sort"></i>
-                        </button>
-                        <input class="search-bar" type="text" placeholder="search" v-model.trim="searchQuery">
+                        <!-- Product List -->
+                        <div class="product-container" v-for="element in productsList" :key="element.id">
+                            <p><strong>id:</strong>{{element.id}}</p>
+                            <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
+                            <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
+                            <p><strong>$sell:</strong><input type="number" v-model.trim="element.sell"></p>
+                            <p><strong>units:</strong><input type="number" v-model.trim="element.units"></p>
+                            <button v-on:click="removeElement(element, 'products')">
+                                <i class="fa-solid fa-circle-minus"></i>
+                            </button>
+                            <button v-on:click="showMore(element)" v-if="!element.more">
+                                <i class="fa-solid fa-circle-up"></i>
+                            </button>
+                            <button v-on:click="showMore(element)" v-else>
+                                <i class="fa-solid fa-circle-down"></i>
+                            </button>
+                            <p v-if="element.more"><strong>Total $cost:</strong>{{totalCost(element).cost}}</p>
+                            <p v-if="element.more"><strong>Total $Sell:</strong>{{totalCost(element).sell}}</p>
+                        </div>
                     </div>
+                </transition>
+            </section>
 
-                    <!-- Product List -->
-                    <div class="product-container" v-for="element in productsList" :key="element.id">
-                        <p><strong>id:</strong>{{element.id}}</p>
-                        <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
-                        <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
-                        <p><strong>$sell:</strong><input type="number" v-model.trim="element.sell"></p>
-                        <p><strong>units:</strong><input type="number" v-model.trim="element.units"></p>
-                        <button v-on:click="removeElement(element, 'products')">
-                            <i class="fa-solid fa-circle-minus"></i>
-                        </button>
-                        <button v-on:click="showMore(element)" v-if="!element.more">
-                            <i class="fa-solid fa-circle-up"></i>
-                        </button>
-                        <button v-on:click="showMore(element)" v-else>
-                            <i class="fa-solid fa-circle-down"></i>
-                        </button>
-                        <p v-if="element.more"><strong>Total $cost:</strong>{{totalCost(element).cost}}</p>
-                        <p v-if="element.more"><strong>Total $Sell:</strong>{{totalCost(element).sell}}</p>
+            <!-- Margin Section -->
+            <section v-if="products.length">
+                <button class="center" v-on:click="addMargin">
+                    <i class="fa-solid fa-circle-plus"></i>&nbsp; New Margin
+                </button>
+                <span v-if="!margins.length" class="message"><hr><p>add margin to begin</p><hr></span>
+
+                <!-- Margin List -->
+                <transition name="fade" mode="out-in">
+                    <div class="input-container" v-if="margins.length">
+                        <div class="margin-container" v-for="element in margins" :key="element.id">
+                            <p><strong>id:</strong>{{element.id}}</p>
+                            <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
+                            <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
+                            <p><strong>type:</strong>
+                                <select v-model="element.type">
+                                    <option value="fixed">fixed</option>
+                                    <option value="changing">changing</option>
+                                </select>
+                            </p>
+                            <button v-on:click="removeElement(element, 'margins')">
+                                <i class="fa-solid fa-circle-minus"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </transition>
-        </section>
+                </transition>
+            </section>
 
-        <!-- Margin Section -->
-        <section v-if="products.length">
-            <button class="center" v-on:click="addMargin">
-                <i class="fa-solid fa-circle-plus"></i>&nbsp; New Margin
-            </button>
-            <span v-if="!margins.length" class="message"><hr><p>add margin to begin</p><hr></span>
+            <!-- Calculations Section -->
+            <section v-if="margins.length && products.length">
+                <button class="center" v-on:click="showCalculations">
+                    <i class="fa-solid fa-calculator"></i>&nbsp; Calculate
+                </button>
+                <span v-if="!calculations" class="message">
+                    <hr><p>Press to calculate various calculations</p><hr>
+                </span>
 
-            <!-- Margin List -->
-            <transition name="fade" mode="out-in">
-                <div class="input-container" v-if="margins.length">
-                    <div class="margin-container" v-for="element in margins" :key="element.id">
-                        <p><strong>id:</strong>{{element.id}}</p>
-                        <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
-                        <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
-                        <p><strong>type:</strong>
-                            <select v-model="element.type">
-                                <option value="fixed">fixed</option>
-                                <option value="changing">changing</option>
-                            </select>
-                        </p>
-                        <button v-on:click="removeElement(element, 'margins')">
-                            <i class="fa-solid fa-circle-minus"></i>
-                        </button>
+                <!-- Profitability Analysis -->
+                <transition name="fade" mode="out-in">
+                    <div class="result-container" v-if="calculations">
+                        <div class="product-container">
+                            <h2>Profitability Analysis</h2>
+                            <p><strong>Total Cost Price for All Products:</strong> The combined cost of all the products you entered. <br><span>${{allProductsPrices().cost}}</span></p>
+                            <p><strong>Total Selling Price for All Products:</strong> The total revenue if all products are sold. <br><span>${{allProductsPrices().sell}}</span></p>
+                            <p><strong>Gross Profit:</strong> The profit before accounting for any additional margins. <br><span>${{grossProfit()}}</span></p>
+                            <p><strong>Net Profit:</strong> The profit after deducting all margins (fixed and changing costs). <br><span>${{netProfit()}}</span></p>
+                            <p><strong>Profit Margin (%):</strong> The percentage of profit relative to the total selling price. <br><span>{{profitMargin()}}%</span></p>
+                        </div>
                     </div>
-                </div>
-            </transition>
-        </section>
+                </transition>
 
-        <!-- Calculations Section -->
-        <section v-if="margins.length && products.length">
-            <button class="center" v-on:click="showCalculations">
-                <i class="fa-solid fa-calculator"></i>&nbsp; Calculate
-            </button>
-            <span v-if="!calculations" class="message">
-                <hr><p>Press to calculate various calculations</p><hr>
+                <!-- Break-Even Analysis -->
+                <transition name="fade" mode="out-in">
+                    <div class="result-container" v-if="calculations">
+                        <div class="product-container">
+                            <h2>Break-Even Analysis</h2>
+                            <p><strong>Break-Even Point:</strong> The number of units you need to sell to cover fixed costs.</p>
+                            <p v-for="element in products" :key="element.id">
+                                <strong>{{element.name}}:</strong> {{breakEvenUnits(element).units}} units
+                            </p>
+                        </div>
+                    </div>
+                </transition>
+
+                <!-- Return on Investment (ROI) -->
+                <transition name="fade" mode="out-in">
+                    <div class="result-container" v-if="calculations">
+                        <div class="product-container">
+                            <h2>Return on Investment (ROI)</h2>
+                            <p><strong>ROI (%):</strong> The percentage of return relative to the total investment (cost + fixed costs). <br><span>{{roi()}}%</span></p>
+                        </div>
+                    </div>
+                </transition>
+            </section>
+        </main>
+        <footer>
+            <span>
+                <hr class="languages html" title="HTML">
+                <hr class="languages vuejs" title="Vue.js">
+                <hr class="languages css" title="CSS">
             </span>
-
-            <!-- Profitability Analysis -->
-            <transition name="fade" mode="out-in">
-                <div class="result-container" v-if="calculations">
-                    <div class="product-container">
-                        <h2>Profitability Analysis</h2>
-                        <p><strong>Total Cost Price for All Products:</strong> The combined cost of all the products you entered. <br><span>${{allProductsPrices().cost}}</span></p>
-                        <p><strong>Total Selling Price for All Products:</strong> The total revenue if all products are sold. <br><span>${{allProductsPrices().sell}}</span></p>
-                        <p><strong>Gross Profit:</strong> The profit before accounting for any additional margins. <br><span>${{grossProfit()}}</span></p>
-                        <p><strong>Net Profit:</strong> The profit after deducting all margins (fixed and changing costs). <br><span>${{netProfit()}}</span></p>
-                        <p><strong>Profit Margin (%):</strong> The percentage of profit relative to the total selling price. <br><span>{{profitMargin()}}%</span></p>
-                    </div>
-                </div>
-            </transition>
-
-            <!-- Break-Even Analysis -->
-            <transition name="fade" mode="out-in">
-                <div class="result-container" v-if="calculations">
-                    <div class="product-container">
-                        <h2>Break-Even Analysis</h2>
-                        <p><strong>Break-Even Point:</strong> The number of units you need to sell to cover fixed costs.</p>
-                        <p v-for="element in products" :key="element.id">
-                            <strong>{{element.name}}:</strong> {{breakEvenUnits(element).units}} units
-                        </p>
-                    </div>
-                </div>
-            </transition>
-
-            <!-- Return on Investment (ROI) -->
-            <transition name="fade" mode="out-in">
-                <div class="result-container" v-if="calculations">
-                    <div class="product-container">
-                        <h2>Return on Investment (ROI)</h2>
-                        <p><strong>ROI (%):</strong> The percentage of return relative to the total investment (cost + fixed costs). <br><span>{{roi()}}%</span></p>
-                    </div>
-                </div>
-            </transition>
-        </section>
+            <a href="https://github.com/JavaBongo"><p><strong>JavaBongo</strong></p></a>
+        </footer>
     </div>
 
     <!-- Vue.js Library and App Script -->
