@@ -1,77 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 body {
   width: 100%;
   background-color: #fffffe;
-  font-family: "JetBrains Mono",monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 h1 {
   text-align: center;
 }
 
-.input-container, .result-container, .ghost-container {
+.input-container,
+.result-container {
   position: relative;
   width: 85%;
-  height: auto;
   margin: 20px auto;
-  background-color: #FCFCFD;
+  background-color: #fcfcfd;
   border-radius: 4px;
-  border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
   box-sizing: border-box;
 }
-#more {
-  cursor: pointer;
-}
-#more:hover ~ .ghost-container {
-  visibility: visible;
-}
+
 .result-container {
   text-align: center;
-}
-.ghost-container {
-  visibility: hidden;
-  height: 100px;
 }
 
 button {
   align-items: center;
-  appearance: none;
-  background-color: #FCFCFD;
+  background-color: #fcfcfd;
   border-radius: 4px;
-  border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-  box-sizing: border-box;
-  color: #36395A;
+  border: none;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  color: #36395a;
   cursor: pointer;
   display: flex;
   height: 48px;
   justify-content: center;
-  line-height: 1;
-  list-style: none;
-  overflow: hidden;
-  padding-left: 16px;
-  padding-right: 16px;
-  position: relative;
-  text-align: left;
-  text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  will-change: box-shadow,transform;
+  padding: 0 16px;
   font-size: 18px;
+  transition: box-shadow 0.15s, transform 0.15s;
 }
+
 button:focus {
-  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px;
 }
+
 button:hover {
-  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px;
   transform: translateY(-2px);
 }
+
 button:active {
-  box-shadow: #D6D6E7 0 3px 7px inset;
+  box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
 }
 
@@ -80,8 +60,6 @@ button:active {
 }
 
 .message {
-  width: auto;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,8 +67,8 @@ button:active {
   font-weight: 200;
   color: #b7b7d9;
 }
+
 .message > hr {
-  height: 0;
   width: 75px;
   margin: 0 5px;
   border-top: 1px solid;
@@ -98,12 +76,13 @@ button:active {
 }
 
 /* Transition Elements */
-.fade-enter-active, .fade-leave-active {
-  /* Fade In */
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s ease, transform 0.3s ease;
 }
-.fade-enter, .fade-leave-to {
-  /* Fade Out */
+
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
   transform: translateY(-10px);
 }
@@ -114,41 +93,38 @@ button:active {
   display: flex;
   justify-content: space-between;
 }
-.sort-button:first-child {
-  width: 50px;
-}
-.product-container, .controls-container, .margin-container {
+
+.product-container,
+.controls-container,
+.margin-container {
   width: 95%;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-evenly;
 }
+
 .result-container > .product-container {
   flex-direction: column;
 }
-.product-container > p {
-  margin: 0;
-}
+
+.product-container > p,
 .margin-container > p {
   margin: 0;
 }
 
-.product-container, .margin-container {
-  margin: 5 auto;
-  justify-content: space-evenly;
-}
 .controls-container {
   width: 100%;
   justify-content: start;
 }
+
 .search-bar {
   width: auto;
 }
 
-input, select {
-  position: relative;
-  cursor: text;
+input,
+select {
   font-size: 14px;
   line-height: 20px;
   padding: 0 16px;
@@ -158,9 +134,9 @@ input, select {
   border-radius: 3px;
   color: rgb(35, 38, 59);
   box-shadow: inset 0 1px 4px 0 rgb(119 122 175 / 30%);
-  overflow: hidden;
   transition: all 100ms ease-in-out;
 }
+
 input:focus {
   border-color: #3c4fe0;
   box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
