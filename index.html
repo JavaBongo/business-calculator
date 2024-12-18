@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <h1 id="title">{{sitename}}</h1>
+        <section>
+            <button class="center" v-on:click="addProduct">
+                <i class="fa-solid fa-circle-plus"></i>&nbsp;
+                New Product
+            </button>
+            <span v-if="!products.length" class="message"><hr><p>add product to begin</p><hr></span>
+            <transition name="fade" mode="out-in">
+                <div class="input-container" v-if="products.length">
+                    <div class="controls-container">
+                        <button class="sort-button" v-for="key in keys" v-on:click="applySort(key)" :key="key">{{key}}&nbsp;<i class="fa-solid fa-sort"></i></button>
+                        <input class="search-bar" type="text" placeholder="search" v-model.trim="searchQuery">
+                    </div>
+                    <div class="product-container" v-for="element in productsList" :key="element.id">
+                        <p><strong>id:</strong>{{element.id}}</p>
+                        <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
+                        <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
+                        <p><strong>$sell:</strong><input type="number" v-model.trim="element.sell"></p>
+                        <p><strong>batch:</strong><input type="number" v-model.trim="element.batch"></p>
+                        <button v-on:click="removeElement(element, 'products')"><i class="fa-solid fa-circle-minus"></i></button>
+                        <button v-on:click="showMore(element)" v-if="!element.more"><i class="fa-solid fa-circle-up"></i></button>
+                        <button v-on:click="showMore(element)" v-else><i class="fa-solid fa-circle-down"></i></button>
+                        <p v-if="element.more"><strong>Total $cost:</strong>{{totalCost(element).cost}}</p>
+                        <p v-if="element.more"><strong>Total $Sell:</strong>{{totalCost(element).sell}}</p>
+                    </div>
+                </div>
+            </transition>
+        </section>
+        <section v-if="products.length">
+            <button class="center" v-on:click="addMargin">
+                <i class="fa-solid fa-circle-plus"></i>&nbsp;
+                New Margin
+            </button>
+            <span v-if="!margins.length" class="message"><hr><p>add margin to begin</p><hr></span>
+            <transition name="fade" mode="out-in">
+                <div class="input-container" v-if="margins.length">
+                    <div class="product-container" v-for="element in margins" :key="element.id">
+                        <p><strong>id:</strong>{{element.id}}</p>
+                        <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
+                        <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
+                        <button v-on:click="removeElement(element, 'margins')"><i class="fa-solid fa-circle-minus"></i></button>
+                    </div>
+                </div>
+            </transition>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="app2.js"></script>
+</body>
+</html>
