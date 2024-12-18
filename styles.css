@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 body {
-  width: 100%;
   background-color: #fffffe;
   font-family: "JetBrains Mono", monospace;
 }
@@ -24,7 +23,9 @@ h1 {
 .result-container {
   text-align: center;
 }
-
+.result-container:last-child {
+  margin-bottom: 100px;
+}
 button {
   align-items: center;
   background-color: #fcfcfd;
@@ -72,7 +73,6 @@ button:active {
   width: 75px;
   margin: 0 5px;
   border-top: 1px solid;
-  border-radius: 20px;
 }
 
 /* Transition Elements */
@@ -92,6 +92,9 @@ button:active {
   margin-right: 10px;
   display: flex;
   justify-content: space-between;
+}
+.sort-button:first-child {
+  width: 50px;
 }
 
 .product-container,
@@ -140,4 +143,73 @@ select {
 input:focus {
   border-color: #3c4fe0;
   box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  color: #36395ab3;
+}
+
+footer > span {
+  width: 150px;
+  min-height: 60px;  /* Ensure space for the hover tag */
+  display: inline-flex;
+  align-items: center;
+}
+
+.languages {
+  margin: 0 1px;
+  border: none;
+  border-bottom: 3px solid;
+  position: relative;
+  cursor: pointer;
+  height: 30px;  /* Set fixed height to ensure hover tag space */
+}
+
+.html {
+  width: 45%;
+  border-color: #E34F26;
+  border-bottom-left-radius: 15px;
+}
+
+.vuejs {
+  width: 38%;
+  border-color: #41B883;
+}
+
+.css {
+  width: 17%;
+  border-color: #2965F1;
+  /* border-bottom-right-radius: 15px; */
+}
+
+/* Anchor link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+a p {
+  margin: 0;
+  margin-bottom: 15px;
+  padding: 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.languages:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: 0;  /* Ensure the tag is visible above the line */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: bold;
+  background-color: transparent;
+  color: #36395ab3;
+  padding: 5px;
+  border-radius: 3px;
 }
