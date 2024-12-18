@@ -26,6 +26,9 @@ h1 {
 #more:hover ~ .ghost-container {
   visibility: visible;
 }
+.result-container {
+  text-align: center;
+}
 .ghost-container {
   visibility: hidden;
   height: 100px;
@@ -121,7 +124,9 @@ button:active {
   flex-wrap: wrap;
   align-items: center;
 }
-
+.result-container > .product-container {
+  flex-direction: column;
+}
 .product-container > p {
   margin: 0;
 }
@@ -141,7 +146,7 @@ button:active {
   width: auto;
 }
 
-input {
+input, select {
   position: relative;
   cursor: text;
   font-size: 14px;
