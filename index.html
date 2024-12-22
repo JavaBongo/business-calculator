@@ -39,9 +39,9 @@
                         <div class="product-container" v-for="element in productsList" :key="element.id">
                             <p><strong>id:</strong>{{element.id}}</p>
                             <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
-                            <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
-                            <p><strong>$sell:</strong><input type="number" v-model.trim="element.sell"></p>
-                            <p><strong>units:</strong><input type="number" v-model.trim="element.units"></p>
+                            <p><strong>$cost:</strong><input type="number" v-model.number="element.cost"></p>
+                            <p><strong>$sell:</strong><input type="number" v-model.number="element.sell"></p>
+                            <p><strong>units:</strong><input type="number" v-model.number="element.units"></p>
                             <button v-on:click="removeElement(element, 'products')">
                                 <i class="fa-solid fa-circle-minus"></i>
                             </button>
@@ -71,7 +71,7 @@
                         <div class="margin-container" v-for="element in margins" :key="element.id">
                             <p><strong>id:</strong>{{element.id}}</p>
                             <p><strong>name:</strong><input type="text" v-model.trim="element.name"></p>
-                            <p><strong>$cost:</strong><input type="number" v-model.trim="element.cost"></p>
+                            <p><strong>$cost:</strong><input type="number" v-model.number="element.cost"></p>
                             <p><strong>type:</strong>
                                 <select v-model="element.type">
                                     <option value="fixed">fixed</option>
